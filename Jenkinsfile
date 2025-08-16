@@ -35,7 +35,7 @@ pipeline {
 
     tools {
         maven 'insmaven'   // Maven version installed in Jenkins
-        jdk 'insjdk'           // JDK installed in Jenkins
+        jdk 'insjava'           // JDK installed in Jenkins
     }
 
     stages {
