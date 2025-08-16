@@ -1,31 +1,64 @@
+// pipeline {
+//     agent any
+//     stages {
+//         stage('Build') {
+//             when{
+//                 branch 'master'
+//             }
+//             steps {
+//                 sh 'mvn package'
+//             }
+//         }
+//         stage('Test') {
+//           when{
+//             branch 'test'
+//           }
+//             steps {
+//                 sh 'mvn test'
+//             }
+//             post {
+//                 always {
+//                     junit 'target/surefire-reports/*.xml'
+//                 }
+//             }
+//         }
+//         stage('Deliver') {
+//             steps {
+//                 sh 'echo "Deploy code"'
+//             }
+//         }
+//     }
+// }
+
 pipeline {
     agent any
+
+    tools {
+        maven 'maven-3.9.11'   // Maven version installed in Jenkins
+        jdk 'jdk-17'           // JDK installed in Jenkins
+    }
+
     stages {
-        stage('Build') {
-            when{
-                branch 'master'
-            }
+        stage('Clone Repository') {
             steps {
-                sh 'mvn package'
+                git branch: 'main', url: 'https://github.com/Yogaraj24/simple-java-maven-app.git'
             }
         }
-        stage('Test') {
-          when{
-            branch 'test'
-          }
+
+        stage('Build with Maven') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh 'echo "Deploy code"'
+                sh 'mvn clean package'
             }
         }
     }
+
+    post {
+        success {
+            echo "✅ Build Successful!"
+        }
+        failure {
+            echo "❌ Build Failed!"
+        }
+    }
 }
+
