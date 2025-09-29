@@ -34,8 +34,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'insmaven'   // Maven version installed in Jenkins
-        jdk 'insjava'           // JDK installed in Jenkins
+        maven 'mymaven'   // Maven version installed in Jenkins
     }
 
     stages {
